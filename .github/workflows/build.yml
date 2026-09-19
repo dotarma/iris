@@ -35,7 +35,7 @@ jobs:
           dotnet-version: 8.0.x
       - shell: pwsh
         run: ./build/Package.ps1 -Architecture ${{ matrix.architecture }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: Iris-${{ matrix.architecture }}
           path: |
