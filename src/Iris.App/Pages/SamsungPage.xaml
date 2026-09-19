@@ -1,0 +1,41 @@
+<Page x:Class="Iris.App.Pages.SamsungPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource PagePadding}" Spacing="14" MaxWidth="900" HorizontalAlignment="Left">
+            <TextBlock Text="Samsung / Odin" Style="{ThemeResource TitleTextBlockStyle}" />
+            <TextBlock Text="Iris integrates with a separately installed brokkR-flash executable (GPL-3.0-or-later, by its own contributors; not bundled). Iris uses its documented CLI: --list, --target, -b/-a/-c/-s/-u, --use-pit, --no-reboot, --reboot-download." TextWrapping="Wrap" />
+            <InfoBar IsOpen="True" Severity="Warning" Title="Flashing can permanently damage a device or erase data"
+                     Message="Use firmware intended for the exact device. Back up data first. Iris always passes an explicit target and never uses brokkR's all-device default." />
+            <HyperlinkButton Content="Open the brokkR-flash project and releases" NavigateUri="https://github.com/Gabriel2392/brokkR-flash" HorizontalAlignment="Left" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="List Odin-mode devices" Click="List_Click" />
+                <Button Content="Refresh targets" Click="RefreshTargets_Click" AutomationProperties.AutomationId="BrokkrRefreshTargets" />
+                <Button Content="Reboot device into Download Mode" Click="RebootDownload_Click" AutomationProperties.AutomationId="BrokkrRebootDownload" />
+            </StackPanel>
+            <ComboBox Header="Detected targets (sysname from brokkR --list)" ItemsSource="{Binding Targets}"
+                      SelectedItem="{Binding SelectedTarget, Mode=TwoWay}" DisplayMemberPath="SysName"
+                      PlaceholderText="No targets detected" MinWidth="320"
+                      AutomationProperties.AutomationId="BrokkrTargetSelector" />
+            <TextBox Header="Exact brokkR target / system name" Text="{Binding Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Identifier reported by brokkR --list" AutomationProperties.AutomationId="BrokkrTarget" />
+            <TextBox Header="BL firmware file" Text="{Binding BlPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the BL TAR or image" AutomationProperties.AutomationId="BrokkrBlPath" />
+            <TextBox Header="AP firmware file" Text="{Binding ApPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the AP TAR or image" AutomationProperties.AutomationId="BrokkrApPath" />
+            <TextBox Header="CP firmware file" Text="{Binding CpPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the CP TAR or image" AutomationProperties.AutomationId="BrokkrCpPath" />
+            <TextBox Header="CSC firmware file" Text="{Binding CscPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the CSC TAR or image" AutomationProperties.AutomationId="BrokkrCscPath" />
+            <TextBox Header="USERDATA firmware file (optional)" Text="{Binding UserDataPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the USERDATA TAR or image" AutomationProperties.AutomationId="BrokkrUserDataPath" />
+            <TextBox Header="PIT file (optional, repartitioning risk)" Text="{Binding PitPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="Absolute path to the .pit file" AutomationProperties.AutomationId="BrokkrPitPath" />
+            <CheckBox Content="Reboot after flashing" IsChecked="{Binding RebootAfterFlash, Mode=TwoWay}" AutomationProperties.AutomationId="BrokkrRebootAfter" />
+            <Button Content="Review and flash" Click="Flash_Click" HorizontalAlignment="Left" AutomationProperties.AutomationId="FlashSamsung" />
+            <ProgressBar IsIndeterminate="{Binding IsBusy}" />
+            <InfoBar IsOpen="{Binding HasError}" Severity="Error" Message="{Binding ErrorMessage}" />
+            <TextBox Header="brokkR output" Text="{Binding Output}" IsReadOnly="True" AcceptsReturn="True" MinHeight="180" FontFamily="Consolas" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,82 @@
+<Window x:Class="Iris.Installer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="260" /><ColumnDefinition /></Grid.ColumnDefinitions>
+        <Border Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="28">
+            <StackPanel Spacing="18">
+                <TextBlock Text="Iris" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Android Device Toolkit" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ListView x:Name="StepList" IsHitTestVisible="False" SelectionMode="Single">
+                    <x:String>Welcome</x:String><x:String>System Check</x:String><x:String>Options</x:String><x:String>Location</x:String>
+                    <x:String>Components</x:String><x:String>Ready</x:String><x:String>Installing</x:String><x:String>Completed</x:String>
+                </ListView>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Column="1" Padding="40,32,40,24" RowSpacing="16">
+            <Grid.RowDefinitions><RowDefinition /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+            <Grid>
+                <StackPanel x:Name="WelcomePanel" Spacing="12">
+                    <TextBlock Text="Welcome to Iris" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock Text="Making custom ROMs on Samsung devices easier." Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <TextBlock Text="An open-source Windows toolkit for ADB, Fastboot, drivers and Samsung custom ROM workflows." TextWrapping="Wrap" />
+                    <TextBlock x:Name="VersionText" Text="Version 1.0.0" Opacity="0.7" />
+                </StackPanel>
+                <StackPanel x:Name="CheckPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock Text="System Check" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock x:Name="WindowsCheck" /><TextBlock x:Name="ArchitectureCheck" /><TextBlock x:Name="DiskCheck" /><TextBlock x:Name="AdminCheck" />
+                    <InfoBar x:Name="ExistingInfo" IsOpen="False" Severity="Informational" Title="Existing installation detected" />
+                </StackPanel>
+                <StackPanel x:Name="OptionsPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock Text="Installation Options" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <RadioButton Content="Install for all users (administrator required)" IsChecked="True" />
+                    <TextBlock Text="The installer requests no elevation automatically. Restart it as administrator when using Program Files." TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="LocationPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock Text="Installation Location" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBox x:Name="LocationText" Header="Folder" Text="{x:Bind Options.InstallDirectory, Mode=TwoWay}" />
+                    <TextBlock Text="The path must be writable and have at least 750 MB available." />
+                </StackPanel>
+                <StackPanel x:Name="ComponentsPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock Text="Components" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <CheckBox Content="Iris Application" IsChecked="{x:Bind Options.InstallApplication, Mode=TwoWay}" IsEnabled="False" />
+                    <CheckBox Content="Offer ADB / Fastboot Platform Tools on first run" IsChecked="{x:Bind Options.OfferPlatformToolsOnFirstRun, Mode=TwoWay}" />
+                    <CheckBox Content="Show Android USB driver guidance" IsChecked="{x:Bind Options.OfferAndroidDriver, Mode=TwoWay}" />
+                    <CheckBox Content="Show Samsung USB driver guidance" IsChecked="{x:Bind Options.OfferSamsungDriver, Mode=TwoWay}" />
+                    <CheckBox Content="Start Menu shortcut" IsChecked="{x:Bind Options.StartMenuShortcut, Mode=TwoWay}" />
+                    <CheckBox Content="Desktop shortcut" IsChecked="{x:Bind Options.DesktopShortcut, Mode=TwoWay}" />
+                    <InfoBar IsOpen="True" Severity="Informational" Message="Drivers and Google Platform-Tools are not bundled or silently installed. Selected guidance appears in Iris after installation." />
+                </StackPanel>
+                <StackPanel x:Name="ReadyPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock x:Name="ReadyTitle" Text="Ready to Install" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock x:Name="ReadySummary" TextWrapping="Wrap" />
+                    <InfoBar IsOpen="True" Severity="Warning" Message="Installation verifies every application payload file before replacing an existing installation." />
+                    <StackPanel x:Name="UninstallOptionsPanel" Visibility="Collapsed" Spacing="8">
+                        <TextBlock Text="Uninstall options" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <CheckBox Content="Remove settings" IsChecked="{x:Bind Options.RemoveSettingsOnUninstall, Mode=TwoWay}" />
+                        <CheckBox Content="Remove downloaded platform-tools" IsChecked="{x:Bind Options.RemoveDownloadedToolsOnUninstall, Mode=TwoWay}" />
+                        <TextBlock Text="Logs are always preserved for troubleshooting. Application files and shortcuts are always removed." TextWrapping="Wrap" Opacity="0.7" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="InstallingPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock Text="Installing Iris" Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock x:Name="ProgressStatus" Text="Preparing..." />
+                    <ProgressBar x:Name="InstallProgress" Minimum="0" Maximum="100" />
+                    <ProgressRing IsActive="True" Width="36" Height="36" HorizontalAlignment="Left" />
+                </StackPanel>
+                <StackPanel x:Name="CompletedPanel" Visibility="Collapsed" Spacing="12">
+                    <TextBlock x:Name="CompletedTitle" Text="Iris has been installed successfully." Style="{ThemeResource TitleTextBlockStyle}" />
+                    <TextBlock Text="Making custom ROMs on Samsung devices easier." />
+                    <CheckBox x:Name="LaunchCheck" Content="Launch Iris" IsChecked="True" />
+                    <HyperlinkButton Content="View release notes" NavigateUri="https://github.com/dotarma/iris/releases" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Grid>
+            <InfoBar Grid.Row="1" x:Name="ErrorInfo" IsOpen="False" Severity="Error" Title="Installation could not continue" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button x:Name="BackButton" Content="Back" Click="Back_Click" IsEnabled="False" />
+                <Button x:Name="NextButton" Content="Continue" Click="Next_Click" Style="{StaticResource AccentButtonStyle}" />
+                <Button x:Name="CancelButton" Content="Cancel" Click="Cancel_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

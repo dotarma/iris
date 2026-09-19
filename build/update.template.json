@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "releaseDate": "2026-09-19",
+  "channel": "update",
+  "minimumVersion": "1.0.0",
+  "releaseNotes": "Replace with release-specific notes.",
+  "architectures": {
+    "x86": { "url": "https://github.com/dotarma/iris/releases/download/v1.0.0/Iris-1.0.0-x86.zip", "sha256": "GENERATED_BY_RELEASE_WORKFLOW" },
+    "x64": { "url": "https://github.com/dotarma/iris/releases/download/v1.0.0/Iris-1.0.0-x64.zip", "sha256": "GENERATED_BY_RELEASE_WORKFLOW" },
+    "arm64": { "url": "https://github.com/dotarma/iris/releases/download/v1.0.0/Iris-1.0.0-arm64.zip", "sha256": "GENERATED_BY_RELEASE_WORKFLOW" }
+  }
+}

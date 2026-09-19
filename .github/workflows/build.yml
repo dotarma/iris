@@ -1,0 +1,44 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet restore Iris.sln
+      - run: dotnet build Iris.sln -c Release --no-restore
+      - run: dotnet test tests/Iris.Tests/Iris.Tests.csproj -c Release --no-build --collect:"XPlat Code Coverage"
+
+  package:
+    needs: test
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [x86, x64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - shell: pwsh
+        run: ./build/Package.ps1 -Architecture ${{ matrix.architecture }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Iris-${{ matrix.architecture }}
+          path: |
+            artifacts/${{ matrix.architecture }}/*.zip
+            artifacts/${{ matrix.architecture }}/*.sha256
+          if-no-files-found: error

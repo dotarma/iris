@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Company>dotarma contributors</Company>
+    <Authors>dotarma contributors</Authors>
+    <Product>Iris</Product>
+    <Copyright>Copyright (c) 2026 dotarma contributors</Copyright>
+    <RepositoryUrl>https://github.com/dotarma/iris</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+</Project>
